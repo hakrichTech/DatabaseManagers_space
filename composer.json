@@ -1,0 +1,17 @@
+{
+    "name": "hakrich-tech/DatabaseManagers_space",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hakeem Rasheed code",
+            "email": "hakeemshamavu@hakrichapp.tech"
+        }
+    ],
+    "autoload": {
+      "psr-4": {
+        "DatabaseManagers_space\\": "src"
+      }
+    },
+    "require": {}
+}
