@@ -9,29 +9,29 @@ class DatabaseManagers
 
   private static $modelPath=array();
   private static $error=0;
+  private static $manager=array();
   private static $managerPath=array();
 
   function __construct($managers_url,$models_url)
   {
-    self::$managersUrl = $managers_url;
-    self::$modelsUrl = $models_url;
     $a = self::CHECK_DIR($managers_url,"manager");
     $b = self::CHECK_DIR($models_url);
     if ($b) {
-      if ($c) {
+      if ($a) {
         self::$error=0;
       }else {
         self::$error=1;
       }
     }else {
-      self::$error=2
+      self::$error=2;
+
     }
 
   }
 
   public static function CHECK_DIR($x,$array="")
   {
-    $dir = __DIR__.'/../../../../'.$x;
+    $dir = __DIR__.'/../../../'.$x;
     if (is_dir($dir)) {
       if ($array == "manager") {
         self::INCLUDE_G_DIR($dir);
@@ -65,6 +65,39 @@ class DatabaseManagers
        self::$managerPath[]=$x.'/'.$file;
      }
    }
+  }
+
+
+
+  public static function RUN()
+  {
+    if (self::$error == 0) {
+      foreach (self::$managerPath as $manager) {
+        $content = file_get_contents($manager);
+        $array = explode("/", $manager);
+        $name = $array[count($array)-1];
+        $file = __DIR__."/Managers/".$name;
+        fopen($file,"w+");
+        file_put_contents($file,$content);
+      }
+      foreach (self::$modelPath as $models) {
+        $content0 = file_get_contents($models);
+        $array0 = explode("/", $models);
+        $name0 = $array0[count($array0)-1];
+        $file0 = __DIR__."/Models/".$name0;
+        list($manager0,$ext) = explode("Manager_", $name0;
+        self::$manager[]=$manager0;
+        fopen($file0,"w+");
+        file_put_contents($file0,$content0);
+      }
+    }else {
+      echo "error";
+    }
+
+  }
+  protected static function MANAGER()
+  {
+    return self::$manager;
   }
 }
 
