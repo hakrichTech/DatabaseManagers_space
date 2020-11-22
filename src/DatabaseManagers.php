@@ -8,14 +8,16 @@ class DatabaseManagers
 {
 
   private static $modelPath=array();
+  private static $entyPath=array();
   private static $error=0;
   private static $manager=array();
   private static $managerPath=array();
 
-  function __construct($managers_url,$models_url)
+  function __construct($managers_url,$models_url,$entyPath)
   {
     $a = self::CHECK_DIR($managers_url,"manager");
     $b = self::CHECK_DIR($models_url);
+    $d = self::CHECK_DIR($entyPath,"enty");
     if ($b) {
       if ($a) {
         self::$error=0;
@@ -35,6 +37,10 @@ class DatabaseManagers
     if (is_dir($dir)) {
       if ($array == "manager") {
         self::INCLUDE_G_DIR($dir);
+        return 1;
+      }
+      elseif ($array == "enty") {
+        self::INCLUDE_E_DIR($dir);
         return 1;
       }else {
         self::INCLUDE_M_DIR($dir);
@@ -56,6 +62,15 @@ class DatabaseManagers
    }
   }
 
+  protected static function INCLUDE_E_DIR($x){
+    $files = scandir($x);
+
+    foreach ($files as $file) {
+     if ($file!='.' && $file!="..") {
+       self::$entyPath[]=$x.'/'.$file;
+     }
+   }
+  }
   protected static function INCLUDE_G_DIR($x)
   {
     $files = scandir($x);
@@ -79,6 +94,14 @@ class DatabaseManagers
         $file = __DIR__."/Managers/".$name;
         fopen($file,"w+");
         file_put_contents($file,$content);
+      }
+      foreach (self::$entyPath as $enty) {
+        $content1 = file_get_contents($enty);
+        $array1 = explode("/", $enty);
+        $name1 = $array1[count($array1)-1];
+        $file1 = __DIR__."/Entity/".$name1;
+        fopen($file1,"w+");
+        file_put_contents($file1,$content1);
       }
       foreach (self::$modelPath as $models) {
         $content0 = file_get_contents($models);
