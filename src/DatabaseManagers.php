@@ -10,11 +10,13 @@ class DatabaseManagers
   private static $modelPath=array();
   private static $entyPath=array();
   private static $error=0;
+  private static $app;
   private static $manager=array();
   private static $managerPath=array();
 
   function __construct($managers_url,$models_url,$entyPath)
   {
+    self::$app = $this;
     $a = self::CHECK_DIR($managers_url,"manager");
     $b = self::CHECK_DIR($models_url);
     $d = self::CHECK_DIR($entyPath,"enty");
@@ -108,19 +110,23 @@ class DatabaseManagers
         $array0 = explode("/", $models);
         $name0 = $array0[count($array0)-1];
         $file0 = __DIR__."/Models/".$name0;
-        list($manager0,$ext) = explode("Manager_", $name0;
+        list($manager0,$ext) = explode("Manager_", $name0);
         self::$manager[]=$manager0;
         fopen($file0,"w+");
         file_put_contents($file0,$content0);
       }
-    }else {
-      echo "error";
     }
+    return self::$app;
 
   }
-  protected static function MANAGER()
+  public static function MANAGER()
   {
     return self::$manager;
+  }
+
+  public static function APP()
+  {
+     return self::$app;
   }
 }
 
