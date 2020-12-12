@@ -26,6 +26,7 @@ class DatabaseManagers
       }else {
         self::$error=1;
       }
+      self::$error = 0;
     }else {
       self::$error=2;
 
@@ -35,7 +36,7 @@ class DatabaseManagers
 
   public static function CHECK_DIR($x,$array="")
   {
-    $dir = __DIR__.'/../../../'.$x;
+    $dir = __DIR__.'/../../../../'.$x;
     if (is_dir($dir)) {
       if ($array == "manager") {
         self::INCLUDE_G_DIR($dir);
@@ -101,7 +102,7 @@ class DatabaseManagers
         $content1 = file_get_contents($enty);
         $array1 = explode("/", $enty);
         $name1 = $array1[count($array1)-1];
-        $file1 = __DIR__."/Entity/".$name1;
+        $file1 = __DIR__."/Details/".$name1;
         fopen($file1,"w+");
         file_put_contents($file1,$content1);
       }
@@ -116,7 +117,7 @@ class DatabaseManagers
         file_put_contents($file0,$content0);
       }
     }
-    return self::$app;
+    return self::$error;
 
   }
   public static function MANAGER()

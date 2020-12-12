@@ -1,4 +1,4 @@
-$<?php
+<?php
 namespace DatabaseManagers_space\Manager;
 /**
  *
@@ -31,7 +31,7 @@ class Managers
            self::$managers[$module] = new $manager(self::$dao,$array);
          }else {
            self::$managers[$module] = new $manager(self::$dao);
-           
+
          }
        }
 
